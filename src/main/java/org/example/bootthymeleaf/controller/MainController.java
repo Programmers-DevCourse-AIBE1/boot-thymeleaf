@@ -23,14 +23,17 @@ public class MainController {
 //        wordRepository.save(word);
         model.addAttribute("words", wordRepository.findAll());
 //        model.addAttribute("message", message);
+        // 타임리프에서 이미 폼을 이미 정의된 걸로 쓰려면 Model을 통해서 전달해야합니다
+        model.addAttribute("wordForm", new WordForm()); // 주입함!
         return "index"; // forward
     }
+
     @PostMapping("/word")
     public String addWord(WordForm wordForm, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("message","끝말잇기");
+        redirectAttributes.addFlashAttribute("message", "끝말잇기 추가");
         Word word = new Word();
         word.setText(wordForm.getWord());
-        wordRepository.save();
+        wordRepository.save(word);
         return "redirect:/";
     }
 
